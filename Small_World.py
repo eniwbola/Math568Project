@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt2
 import random
 import math
 import networkx as nx
-def smallworld(n,P_Con_EE):
+def smallworld(n,P_EE,out_RAD_EE):
 	#n=300
 	#P_Con_EE=.5;
 	#EE_Adjlist=[[0]*2]*mo
@@ -21,7 +21,7 @@ def smallworld(n,P_Con_EE):
 
 	P_EE=.5
 
-	out_RAD_EE=3
+	#out_RAD_EE=3
 
 	for i in range(n):
 		
@@ -89,6 +89,7 @@ def smallworld(n,P_Con_EE):
 
 	#	adjlist.append
 
-smallworld(300,.5)
+#smallworld(300,.5)
+
 
 
