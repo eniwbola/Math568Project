@@ -8,7 +8,7 @@ import random
 import math
 #import networkx as nx
 # so when this becomes a function will have you put in Excitatory Number, Inhibitory Number, was well as the probabilities pee,pii,pie,pei and it will spit out 1 to 4 matrices that determine the connections, the rest is up to you, be brave my friend. 
-nee=300;
+nee=300
 pee=.05;#c=2*(math.log(2))
 #m= round((c*n/2))#30;
 print m ,'m'

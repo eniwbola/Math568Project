@@ -11,7 +11,7 @@ import random
 import math
 #import networkx as nx
 n=300
-P_Con_EE=.5;
+P_Con_EE=.5
 #EE_Adjlist=[[0]*2]*mo
 EE_Adjlist=[]
 for i in range(n):
@@ -36,7 +36,7 @@ for i in range(n):
 				pass
 			else:
 				EE_Adjlist[i].insert(0,j)
-                                EE_Adjlist[j].insert(0,i)
+                EE_Adjlist[j].insert(0,i)
 #EE_Adjlist.append([])
 for i in EE_Adjlist:		
 	print i
