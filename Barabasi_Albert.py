@@ -6,38 +6,135 @@ import matplotlib.pyplot as plt1
 import matplotlib.pyplot as plt2
 import random
 
-mo=3
-P_Con_EE=.5;
-EE_Adjlist=[[0]*2]*mo
 
-print random.random();
-print random.random();
+
+
+
+
+def ScaleFree(n,P_Con_EE,mo,m ):
+
+		def find_nearest(array, value):
+	    		array = np.asarray(array)
+	    		idx = (np.abs(array - value)).argmin()
+	    		return idx
+		#mo=10
+		#P_Con_EE=.5;
+		#EE_Adjlist=[[0]*2]*mo
+		EE_Adjlist=[]
+		for i in range(mo):
+			EE_Adjlist.append([-1]*random.randint(0,2))
+			#EE_Adjlist.append(list(map(int,random.randint(0,2))))
+		print random.random();
+		print random.random();
+		#for i in EE_Adjlist:
+		#	print i
+		print "yeeeeeeeeeeeeee"	
+
+		print EE_Adjlist[2]
+
+		for i in range(mo):
+			Current_Edge_List=EE_Adjlist[i]
+			for j in range(mo):
+				if( (random.random()< .5) and j!=i):
+					#Current_Edge_List=EE_Adjlist[i]
+					if j in Current_Edge_List:
+						pass
+					else:
+						EE_Adjlist[i].insert(0,j)
+	                                	EE_Adjlist[j].insert(0,i)
+		#EE_Adjlist.append([])
+		for i in EE_Adjlist:		
+			print i
+
+		print "removing negatives"
+
+		for i in range(len(EE_Adjlist)):
+			negcount= EE_Adjlist[i].count(-1)
+			#print "negcout", negcount
+			for j in range(negcount):
+				EE_Adjlist[i].pop(-1)	
+
+
+
+		EE_Adj_Count=[]
+
+		for i in EE_Adjlist:
+		#	print i
+			EE_Adj_Count.append(len(i))
+
+		#for i in EE_Adj_Count:
+		#	print i
+
+
+
+		for i in range(n):
+			EE_Adjlist.append([])
+			EE_Adj_Count.append(0)
+			for j in range(m):
+				if j==0:
+					Current_Edge_moi=EE_Adjlist[mo+i]
+					Current_Edge_Connect_to=[]
+				Connection_Range=random.uniform(0,1)*sum(EE_Adj_Count)
+				print 'Connection_Range', Connection_Range
+				Connect_to=find_nearest(np.cumsum(EE_Adj_Count), Connection_Range)	
+				print 'Connect_to' , Connect_to
+			# 	if randcol in Current_Edge_List:
+			# pass
+				if j==1 and ( ( Connect_to in Current_Edge_moi)	 or (mo+i in Current_Edge_Connect_to)   ):
+					j=j-1
+					pass	
+				EE_Adjlist[mo+i].insert(0,random.randint(0,mo+i-1))#EE_Adjlist[mo+i].insert(0,k)
+		 		EE_Adjlist[Connect_to].insert(0,mo+i); #EE_Adjlist[k].insert(0,mo+i)
+		 		EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
+		 		EE_Adj_Count[Connect_to]=EE_Adj_Count[Connect_to]+1
+		 		Current_Edge_moi=EE_Adjlist[mo+i]
+				Current_Edge_Connect_to=EE_Adjlist[Connect_to]		
+
+
+		# for i in range(n):
+		# 	totaldeg=sum(EE_Adj_Count)
+		# 	EE_Adjlist.append([])
+		# 	#EE_Adj_Count.insert(len(EE_Adj_Count),0)
+		# 	EE_Adj_Count.append(0)
+		# 	for k in range(len(EE_Adjlist)):
+		# 		if (k<(mo+i)):
+		# 			if random.random()<(len(EE_Adjlist[k])/(sum(EE_Adj_Count)*1.0 ) ):
+
+		# 				for two_it in range(m)
+		# 					Connection_Range=random.uniform(0,1)*sum(EE_Adj_Count)
+		# 					find_nearest(array, value)
+		# 					EE_Adjlist[mo+i].insert(0,random.randint(0,mo+i))#EE_Adjlist[mo+i].insert(0,k)
+		# 					EE_Adjlist[k] #EE_Adjlist[k].insert(0,mo+i)
+		# 					EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
+		# 					EE_Adj_Count[k]=EE_Adj_Count[k]+1
+
+
+
+
+
+		#for i in EE_Adjlist:
+		#	print i 
+					
+		
+		#for i in EE_Adj_Count:
+		#	print i 
+		
+		#return EE_Adjlist, EE_Adj_Count
+		print EE_Adj_Count	
+		EE_Adjlist_Set={}
+	        Set_Iter=0
+	        for i in EE_Adjlist:
+	            EE_Adjlist_Set[Set_Iter]=i
+	            Set_Iter=Set_Iter+1
+
+		print np.cumsum(EE_Adj_Count)
+		print 'nearest', find_nearest(np.cumsum(EE_Adj_Count),160)
+        	
+		return EE_Adjlist_Set
+
+#EE_Adjlist,EE_Adj_Count=ScaleFree()  #	adjlist.append
+#print "ayyeee"
 #for i in EE_Adjlist:
 #	print i
-	
-
-print EE_Adjlist[2]
-
-for i in range(mo):
-	Current_Edge_List=EE_Adjlist[i]
-	for j in range(mo):
-		if( random.random()< .5):
-			#Current_Edge_List=EE_Adjlist[i]
-			#In_List_Check= any( elem==j for elem in Current_Edge_List)
-			#if( not In_List_Check):
-			#	EE_Adjlist[i].append(j)
-			#	EE_Adjlist[j].append(i)
-			if j in Current_Edge_List:
-				pass
-			else: 
-				EE_Adjlist[i].append(j)
-                                EE_Adjlist[j].append(i)
- 
-
-for i in EE_Adjlist:
-	print i
 
 
-
-
-#	adjlist.append
