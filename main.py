@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from random import random
 from Cortical_neuron import Cortical_neuron
 from math import exp
+import pickle
+import statistics
 
 # -------visualization of the network
 network = RandomG()
@@ -25,11 +27,11 @@ plt.show()
 #------Neural Network Simulation--------
 #----------Initialization---------------
 t0 = 0.0
-tend = 1000.0
+tend=1000.0 #tend = 1000.0
 N = len(network) 
 
 delta_t = 0.05 #delta_t = 0.05 ms
-I_drive = 1.3*np.ones(N)+0.068*np.random.rand(N)
+I_drive = 1.3*np.ones(N)+0.02*np.random.rand(N)
 E = 0 # 0 mV for excitatory synapses
 tau = 0.5 # ms
 w = 0.01 #connection strength
@@ -44,6 +46,9 @@ x = np.zeros((N,4))
 for i in range(N):
     vpoints[i] = []
     x[i]=[random(),random(),random(),-70+40*random()]
+
+spiketimes_mpc=[];
+spikeneurons_mpc=[];
 
 #---------------Simulation-----------------------
 for t in tpoints:
@@ -65,7 +70,16 @@ for t in tpoints:
         if (x[i,3]>-20) and cross: 
             spike[i] += 1
             tspike[i,spike[i]] = t
-    
+            #tspike_mpc.append([i,t])
+            spiketimes_mpc.append(t)
+            spikeneurons_mpc.append(i)
+#print(tspike_mpc)
+with open('spikedata.pkl','wb') as f:
+    pickle.dump([spiketimes_mpc, spikeneurons_mpc],f)
+
+with open('vtraces.pkl','wb') as g:
+    pickle.dump([vpoints],g)
+
 plt.plot(tpoints,vpoints[0])
 plt.xlabel("t")
 plt.show()

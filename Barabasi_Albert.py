@@ -1,4 +1,6 @@
-#!/usr/bin/python 
+#!/usr/bin/python3.5
+
+#!/usr/bin/python3.7
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -23,34 +25,23 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 		EE_Adjlist=[]
 		for i in range(mo):
 			EE_Adjlist.append([-1]*random.randint(0,2))
-			#EE_Adjlist.append(list(map(int,random.randint(0,2))))
-		print random.random();
-		print random.random();
-		#for i in EE_Adjlist:
-		#	print i
-		print "yeeeeeeeeeeeeee"	
-
-		print EE_Adjlist[2]
-
+		
 		for i in range(mo):
 			Current_Edge_List=EE_Adjlist[i]
 			for j in range(mo):
 				if( (random.random()< .5) and j!=i):
-					#Current_Edge_List=EE_Adjlist[i]
 					if j in Current_Edge_List:
 						pass
 					else:
 						EE_Adjlist[i].insert(0,j)
-	                                	EE_Adjlist[j].insert(0,i)
-		#EE_Adjlist.append([])
+						EE_Adjlist[j].insert(0,i)
 		for i in EE_Adjlist:		
-			print i
+			print(i)
 
-		print "removing negatives"
+		#print("removing negatives")
 
 		for i in range(len(EE_Adjlist)):
 			negcount= EE_Adjlist[i].count(-1)
-			#print "negcout", negcount
 			for j in range(negcount):
 				EE_Adjlist[i].pop(-1)	
 
@@ -59,11 +50,7 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 		EE_Adj_Count=[]
 
 		for i in EE_Adjlist:
-		#	print i
 			EE_Adj_Count.append(len(i))
-
-		#for i in EE_Adj_Count:
-		#	print i
 
 
 
@@ -75,23 +62,45 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 					Current_Edge_moi=EE_Adjlist[mo+i]
 					Current_Edge_Connect_to=[]
 				Connection_Range=random.uniform(0,1)*sum(EE_Adj_Count)
-				print 'Connection_Range', Connection_Range
+				print('Connection_Range', Connection_Range)
 				Connect_to=find_nearest(np.cumsum(EE_Adj_Count), Connection_Range)	
-				print 'Connect_to' , Connect_to
-			# 	if randcol in Current_Edge_List:
-			# pass
+				print('Connect_to' , Connect_to)
+			        #if randcol in Current_Edge_List:
+			        #pass
 				if j==1 and ( ( Connect_to in Current_Edge_moi)	 or (mo+i in Current_Edge_Connect_to)   ):
 					j=j-1
 					pass	
 				EE_Adjlist[mo+i].insert(0,random.randint(0,mo+i-1))#EE_Adjlist[mo+i].insert(0,k)
-		 		EE_Adjlist[Connect_to].insert(0,mo+i); #EE_Adjlist[k].insert(0,mo+i)
-		 		EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
-		 		EE_Adj_Count[Connect_to]=EE_Adj_Count[Connect_to]+1
-		 		Current_Edge_moi=EE_Adjlist[mo+i]
+				EE_Adjlist[Connect_to].insert(0,mo+i); #EE_Adjlist[k].insert(0,mo+i)
+				EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
+				EE_Adj_Count[Connect_to]=EE_Adj_Count[Connect_to]+1
+				Current_Edge_moi=EE_Adjlist[mo+i]
 				Current_Edge_Connect_to=EE_Adjlist[Connect_to]		
 
+		print(EE_Adj_Count)	
+		EE_Adjlist_Set={}
+		Set_Iter=0
+		for i in EE_Adjlist:
+			EE_Adjlist_Set[Set_Iter]=i
+			Set_Iter=Set_Iter+1
 
-		# for i in range(n):
+		print(np.cumsum(EE_Adj_Count))
+		print('nearest', find_nearest(np.cumsum(EE_Adj_Count),160))
+        	
+		return EE_Adjlist_Set
+
+
+#------------------------------------Aditional Comments----------------------------------------#
+
+#EE_Adjlist,EE_Adj_Count=ScaleFree()  #	adjlist.append
+#print "ayyeee"
+#for i in EE_Adjlist:
+#	print i
+
+
+
+#----------------------AlternativeGeneration------------------------------------------#
+# for i in range(n):
 		# 	totaldeg=sum(EE_Adj_Count)
 		# 	EE_Adjlist.append([])
 		# 	#EE_Adj_Count.insert(len(EE_Adj_Count),0)
@@ -108,33 +117,5 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 		# 					EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
 		# 					EE_Adj_Count[k]=EE_Adj_Count[k]+1
 
-
-
-
-
-		#for i in EE_Adjlist:
-		#	print i 
-					
-		
-		#for i in EE_Adj_Count:
-		#	print i 
-		
-		#return EE_Adjlist, EE_Adj_Count
-		print EE_Adj_Count	
-		EE_Adjlist_Set={}
-	        Set_Iter=0
-	        for i in EE_Adjlist:
-	            EE_Adjlist_Set[Set_Iter]=i
-	            Set_Iter=Set_Iter+1
-
-		print np.cumsum(EE_Adj_Count)
-		print 'nearest', find_nearest(np.cumsum(EE_Adj_Count),160)
-        	
-		return EE_Adjlist_Set
-
-#EE_Adjlist,EE_Adj_Count=ScaleFree()  #	adjlist.append
-#print "ayyeee"
-#for i in EE_Adjlist:
-#	print i
 
 
