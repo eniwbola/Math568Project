@@ -43,7 +43,7 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 		for i in range(len(EE_Adjlist)):
 			negcount= EE_Adjlist[i].count(-1)
 			for j in range(negcount):
-				EE_Adjlist[i].pop(-1)	
+				EE_Adjlist[i].remove(-1)	
 
 
 
