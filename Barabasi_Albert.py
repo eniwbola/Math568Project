@@ -54,7 +54,7 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 
 
 
-		for i in range(n):
+		for i in range(n-mo):
 			EE_Adjlist.append([])
 			EE_Adj_Count.append(0)
 			for j in range(m):
