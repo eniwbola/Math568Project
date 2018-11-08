@@ -13,55 +13,85 @@ import matplotlib.pyplot as plt2
 import random
 import math
 import networkx as nx
-def smallworld(n,P_EE,out_RAD_EE):
-	#n=300
-	#P_Con_EE=.5;
-	#EE_Adjlist=[[0]*2]*mo
-	EE_Adjlist=[]
-	for i in range(n):
-		EE_Adjlist.append([]) #EE_Adjlist.append([-1]*random.randint(0,2))
-		#EE_Adjlist.append(list(map(int,random.randint(0,2))))
+def smallworld(n,P_EE,out_RAD_EE,rp):
+#n=300
+#P_Con_EE=.5;
+#EE_Adjlist=[[0]*2]*mo
+    EE_Adjlist=[]
+    for i in range(n):
+        EE_Adjlist.append([]) #EE_Adjlist.append([-1]*random.randint(0,2))
+	#EE_Adjlist.append(list(map(int,random.randint(0,2))))
 
-	P_EE=.5
+    #P_EE=.5
 
 	#out_RAD_EE=3
 
-	for i in range(n):
+    for i in range(n):
 		
-		Current_Edge_List=EE_Adjlist[i]
-		for j in range(n):
-			dx=math.fabs(i-j)
-			if ( (n-dx) < dx):
-				dx=n-dx
-			if ((dx<out_RAD_EE) and ( random.random()<=P_EE ) and j!=i  ):
+        Current_Edge_List=EE_Adjlist[i]
+        for j in range(n):
+            dx=math.fabs(i-j)
+            if ( (n-dx) < dx):
+                dx=n-dx
+            if ((dx<out_RAD_EE) and ( random.random()<=P_EE ) and j!=i  ):
 				  
 				#Current_Edge_List=EE_Adjlist[i]
-				if j in Current_Edge_List:
-					pass
-				else:
-					EE_Adjlist[i].insert(0,j)
-	for i in range(len(EE_Adjlist)):
-		negcount= EE_Adjlist[i].count(-1)
-		#print "negcout", negcount
-		for j in range(negcount):
-			EE_Adjlist[i].pop(-1)	
+                if j in Current_Edge_List:
+                    pass
+                else:
+                    EE_Adjlist[i].insert(0,j)
 
-	EE_Adj_Count=[]
 
-	EE_Adjlist_Set={}
 
-	Set_Iter=0
 
-	for i in EE_Adjlist:
-		EE_Adjlist_Set[Set_Iter]=i
-		Set_Iter=Set_Iter+1
+    for i in range(len(EE_Adjlist)):
+        negcount= EE_Adjlist[i].count(-1)
+        #print "negcout", negcount
+        for j in range(negcount):
+            EE_Adjlist[i].remove(-1)	
 
-	#print(EE_Adjlist_Set)
-	return(EE_Adjlist_Set)    
+
+
+#----------------------------#--------RewiringProbability--------#-------------------------------------#
+
+
+# so say we'll look through each list and if the rp<random.random() then we will say choose another node and random between 1 and n
+# if that node is not in the list already then we should add that and then pop the previous one 
+
+    for i in range(len(EE_Adjlist)):
+        if EE_Adjlist[i]:
+            for b in EE_Adjlist[i]:
+                if random.uniform(0,1) < rp:
+                    done=0
+                    while done==0:
+                        newloc=random.randint(1,300)
+                        if newloc not in EE_Adjlist[i]: 
+                            done=1
+                        else:
+                            done=0
+                    EE_Adjlist[i].insert(0,newloc)
+                    EE_Adjlist[i].remove(b)
+
+
+
+
+#-----------------------------------------------------------------#
+    EE_Adj_Count=[]
+
+    EE_Adjlist_Set={}
+
+    Set_Iter=0
+
+    for i in EE_Adjlist:
+        EE_Adjlist_Set[Set_Iter]=i
+        Set_Iter=Set_Iter+1
+
+    print(EE_Adjlist_Set)
+    return(EE_Adjlist_Set)    
 
 	#	adjlist.append
 
-#smallworld(300,.5)
-
+#smallworld(30,1,4,.2)
+#smallworld(n,P_EE,out_RAD_EE,rp):
 
 
