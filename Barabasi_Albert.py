@@ -13,14 +13,14 @@ import random
 
 
 
-def ScaleFree(n,P_Con_EE,mo,m ):
+def ScaleFree(n,P_Con_EE=1,mo=10,m=2 ):
 
 		def find_nearest(array, value):
 	    		array = np.asarray(array)
 	    		idx = (np.abs(array - value)).argmin()
 	    		return idx
 		#mo=10
-		#P_Con_EE=.5;
+
 		#EE_Adjlist=[[0]*2]*mo
 		EE_Adjlist=[]
 		for i in range(mo):
@@ -29,14 +29,15 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 		for i in range(mo):
 			Current_Edge_List=EE_Adjlist[i]
 			for j in range(mo):
-				if( (random.random()< .5) and j!=i):
+
+				if( (random.random()<P_Con_EE) and j!=i):
 					if j in Current_Edge_List:
 						pass
 					else:
 						EE_Adjlist[i].insert(0,j)
 						EE_Adjlist[j].insert(0,i)
-		for i in EE_Adjlist:		
-			print(i)
+		#for i in EE_Adjlist:		
+			#print(i)
 
 		#print("removing negatives")
 
@@ -54,7 +55,7 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 
 
 
-		for i in range(n):
+		for i in range(n-mo):
 			EE_Adjlist.append([])
 			EE_Adj_Count.append(0)
 			for j in range(m):
@@ -62,9 +63,9 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 					Current_Edge_moi=EE_Adjlist[mo+i]
 					Current_Edge_Connect_to=[]
 				Connection_Range=random.uniform(0,1)*sum(EE_Adj_Count)
-				print('Connection_Range', Connection_Range)
+				#print('Connection_Range', Connection_Range)
 				Connect_to=find_nearest(np.cumsum(EE_Adj_Count), Connection_Range)	
-				print('Connect_to' , Connect_to)
+				#print('Connect_to' , Connect_to)
 			        #if randcol in Current_Edge_List:
 			        #pass
 				if j==1 and ( ( Connect_to in Current_Edge_moi)	 or (mo+i in Current_Edge_Connect_to)   ):
@@ -77,15 +78,15 @@ def ScaleFree(n,P_Con_EE,mo,m ):
 				Current_Edge_moi=EE_Adjlist[mo+i]
 				Current_Edge_Connect_to=EE_Adjlist[Connect_to]		
 
-		print(EE_Adj_Count)	
+		#print(EE_Adj_Count)	
 		EE_Adjlist_Set={}
 		Set_Iter=0
 		for i in EE_Adjlist:
 			EE_Adjlist_Set[Set_Iter]=i
 			Set_Iter=Set_Iter+1
 
-		print(np.cumsum(EE_Adj_Count))
-		print('nearest', find_nearest(np.cumsum(EE_Adj_Count),160))
+		#print(np.cumsum(EE_Adj_Count))
+		#print('nearest', find_nearest(np.cumsum(EE_Adj_Count),160))
         	
 		return EE_Adjlist_Set
 

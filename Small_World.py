@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt2
 import random
 import math
 import networkx as nx
-def smallworld(n,P_EE,out_RAD_EE,rp):
+def smallworld(n,P_EE,out_RAD_EE,rp=0.5):
 #n=300
 #P_Con_EE=.5;
 #EE_Adjlist=[[0]*2]*mo
@@ -33,7 +33,7 @@ def smallworld(n,P_EE,out_RAD_EE,rp):
             dx=math.fabs(i-j)
             if ( (n-dx) < dx):
                 dx=n-dx
-            if ((dx<out_RAD_EE) and ( random.random()<=P_EE ) and j!=i  ):
+            if ((dx<=out_RAD_EE) and ( random.random()<=P_EE ) and j!=i  ):
 				  
 				#Current_Edge_List=EE_Adjlist[i]
                 if j in Current_Edge_List:
@@ -86,7 +86,7 @@ def smallworld(n,P_EE,out_RAD_EE,rp):
         EE_Adjlist_Set[Set_Iter]=i
         Set_Iter=Set_Iter+1
 
-    print(EE_Adjlist_Set)
+    #print(EE_Adjlist_Set)
     return(EE_Adjlist_Set)    
 
 	#	adjlist.append
