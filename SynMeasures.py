@@ -93,7 +93,7 @@ def mpc_network(N,spiketimes_mpc,spikeneurons_mpc):
 
         # compute mean phase of cell b spikes relative to cell a cycle
             k=0
-            print(last_cb_spike)
+            #print(last_cb_spike)
             for i in range(first_cb_spike,last_cb_spike+1): #for i=first_cb_spike:last_cb_spike
                 # for each cell b spike determine cell a cycle containing the spike
                 ind_ca_spike2 = find_first(ca_spiketimes,[cb_spiketimes[i]]) #find(ca_spiketimes>=cb_spiketimes(i),1,'first')

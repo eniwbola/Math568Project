@@ -72,7 +72,7 @@ def ScaleFree(n,P_Con_EE=1,mo=10,m=2 ):
 					j=j-1
 					pass	
 				EE_Adjlist[mo+i].insert(0,random.randint(0,mo+i-1))#EE_Adjlist[mo+i].insert(0,k)
-				EE_Adjlist[Connect_to].insert(0,mo+i); #EE_Adjlist[k].insert(0,mo+i)
+				EE_Adjlist[Connect_to].insert(0,mo+i) #EE_Adjlist[k].insert(0,mo+i)
 				EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
 				EE_Adj_Count[Connect_to]=EE_Adj_Count[Connect_to]+1
 				Current_Edge_moi=EE_Adjlist[mo+i]

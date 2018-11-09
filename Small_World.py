@@ -51,7 +51,7 @@ def smallworld(n,P_EE,out_RAD_EE,rp=0.5):
             EE_Adjlist[i].remove(-1)	
 #----------------------------MatrixGenerationBeforeRewired---------------------#
     EE_Matrix=[[] for i in range(n)]
-    print(EE_Matrix)
+    #print(EE_Matrix)
     for i in range(n):
         for j in range(n):
             if j in EE_Adjlist[i]:
@@ -59,11 +59,11 @@ def smallworld(n,P_EE,out_RAD_EE,rp=0.5):
             else:
                 EE_Matrix[i].append(0)
     origmat=np.matrix(EE_Matrix)
-    print(origmat)
+    #print(origmat)
     
-    plt1.matshow(origmat)
-    plt1.show()
-     #plt1.plot()
+    #plt1.matshow(origmat)
+    #plt1.show()
+    #plt1.plot()
     #plt1.xlabel("t")
 #----------------------------#--------RewiringProbability--------#-------------------------------------#
 
@@ -125,13 +125,13 @@ def smallworld(n,P_EE,out_RAD_EE,rp=0.5):
             else:
                 EE_Matrix[i].append(0)
     newmat=np.matrix(EE_Matrix)
-    print(origmat)
+    #print(origmat)
     
-    plt1.matshow(newmat)
-    plt1.show()
+    #plt1.matshow(newmat)
+    #plt1.show()
 
 #-----------------------------------------------------------------#
-    EE_Adj_Count=[]
+    #EE_Adj_Count=[]
 
     EE_Adjlist_Set={}
 
