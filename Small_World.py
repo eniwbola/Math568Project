@@ -109,7 +109,7 @@ def smallworld(n,P_EE,out_RAD_EE,rp=0.5):
         done=0
         
         while done==0:
-            if removed_node_list[a] not in EE_Adjlist[newloc]:
+            if (removed_node_list[a] not in EE_Adjlist[newloc]) and (newloc != removed_node_list[a]):
                 done=1
                 EE_Adjlist[newloc].insert(0,removed_node_list[a])
             else:
