@@ -146,7 +146,7 @@ def smallworld(n,P_EE,out_RAD_EE,rp=0.5):
 
 	#	adjlist.append
 
-#smallworld(300,1,12,1)
+smallworld(1000,1,100,1)
 #smallworld(n,P_EE,out_RAD_EE,rp):
 
 
