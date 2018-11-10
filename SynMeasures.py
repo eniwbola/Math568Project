@@ -13,6 +13,7 @@ from math import exp
 import pickle
 import statistics
 from scipy.stats.stats import pearsonr
+import scipy.io
 #-------------------------------------------MeanPhaseCoherence---------------------------------------------#
 
 def mpc_network(N,spiketimes_mpc,spikeneurons_mpc):
@@ -34,7 +35,7 @@ def mpc_network(N,spiketimes_mpc,spikeneurons_mpc):
         Cell_Pairs_1= Cell_Pairs_1+temp11 #%map(float,temp1)
         Cell_Pairs_2= Cell_Pairs_2+temp22 #%map(float,temp2)
     
-    mpc_cellpairs = [0]*N #np.zeros(N,1)
+    mpc_cellpairs = [0]*len(Cell_Pairs_1) #np.zeros(N,1)
     	
     def selective_spike_times(spiketimes_mpc,spikeneurons_mpc,Cell_Pairs,iter):
         spikelist=[]
@@ -54,8 +55,8 @@ def mpc_network(N,spiketimes_mpc,spikeneurons_mpc):
         
 
     def find_last(cb_spiketimes,ca_spiketimes):
-        last_ca_spike=ca_spiketimes[len(ca_spiketimes)-1]
-        last_cb_spike=cb_spiketimes[len(cb_spiketimes)-1]
+        last_ca_spike=ca_spiketimes[-1]
+        last_cb_spike=cb_spiketimes[-1]
         last_cb_spike_ind=0
         if last_ca_spike>last_cb_spike:
             last_cb_spike_ind=len(cb_spiketimes)-1
@@ -70,7 +71,7 @@ def mpc_network(N,spiketimes_mpc,spikeneurons_mpc):
                 break  
 		
    
-    for j in range(len(mpc_cellpairs)):
+    for j in range(len(Cell_Pairs_1)):
 
         # define cell a and cell b
         ca_spiketimes=selective_spike_times(spiketimes_mpc,spikeneurons_mpc,Cell_Pairs_1,j )  #ca_spiketimes = spiketimes(spiketimes(:,2)==cell_pairs(j,1),1)
@@ -85,8 +86,12 @@ def mpc_network(N,spiketimes_mpc,spikeneurons_mpc):
             
             # determine index of last cell b spike within a cell a cycle
             last_cb_spike = find_last(cb_spiketimes,ca_spiketimes) #find(cb_spiketimes<ca_spiketimes(end),1,'last')
-            
-            num_spikes = last_cb_spike-first_cb_spike+1
+            #print("last_cb_spike",last_cb_spike)
+            #print("first_cb_spike",first_cb_spike)
+            if((last_cb_spike is None) or (first_cb_spike is None) ):
+                num_spikes=0
+            else:
+                num_spikes = last_cb_spike-first_cb_spike+1
             phase = [0]*num_spikes #np.zeros(num_spikes,1) #zeros(num_spikes,1)
             cos_phase =[0]*num_spikes  #np.zeros(num_spikes,1) #zeros(num_spikes,1)
             sin_phase =[0]*num_spikes #np.zeros(num_spikes,1) #zeros(num_spikes,1)
@@ -94,24 +99,41 @@ def mpc_network(N,spiketimes_mpc,spikeneurons_mpc):
         # compute mean phase of cell b spikes relative to cell a cycle
             k=0
             #print(last_cb_spike)
-            for i in range(first_cb_spike,last_cb_spike+1): #for i=first_cb_spike:last_cb_spike
-                # for each cell b spike determine cell a cycle containing the spike
-                ind_ca_spike2 = find_first(ca_spiketimes,[cb_spiketimes[i]]) #find(ca_spiketimes>=cb_spiketimes(i),1,'first')
-                ca_spike2 = ca_spiketimes[ind_ca_spike2]
-                ca_spike1 = ca_spiketimes[ind_ca_spike2-1]
+            if((last_cb_spike is None) or (first_cb_spike is None) or (last_cb_spike == 0)):
+                cos_phase=[0,0]
+                sin_phase=[0,0]
 
-                phase[k] = 2*math.pi*(cb_spiketimes[i]-ca_spike1)/(ca_spike2-ca_spike1)
-                cos_phase[k] = cos(phase[k])
-                sin_phase[k] = sin(phase[k])
-                k=k+1        
 
-            mean_cos = statistics.mean(cos_phase)
-            mean_sin = statistics.mean(sin_phase)
+
+            else:
+                for i in range(first_cb_spike,last_cb_spike+1): #for i=first_cb_spike:last_cb_spike
+                    # for each cell b spike determine cell a cycle containing the spike
+                    
+                    ind_ca_spike2 = find_first(ca_spiketimes,[cb_spiketimes[i]]) #find(ca_spiketimes>=cb_spiketimes(i),1,'first')
+                    if ind_ca_spike2 is None:
+                        continue
+                    #print('ind_ca_spike2',ind_ca_spike2)
+                    ca_spike2 = ca_spiketimes[ind_ca_spike2]
+                    ca_spike1 = ca_spiketimes[ind_ca_spike2-1]
+
+                    phase[k] = 2*math.pi*(cb_spiketimes[i]-ca_spike1)/(ca_spike2-ca_spike1)
+                    cos_phase[k] = cos(phase[k])
+                    sin_phase[k] = sin(phase[k])
+                    k=k+1        
+            if(len(cos_phase)<1):
+                mean_cos=0
+            else:	
+                mean_cos = statistics.mean(cos_phase)
+
+            if(len(sin_phase)<1):
+                mean_sin=0
+            else:	
+                mean_sin = statistics.mean(sin_phase)
             mpc_cellpairs[j] = math.sqrt(mean_cos**2 + mean_sin**2)    
 
         # remove zero and NaN entries
         #mpc_cellpairs = mpc_cellpairs(mpc_cellpairs~=0)
-    
+    #print(mpc_cellpairs)
     mpc_cellpairs=list(filter(lambda mpc_cellpairs: mpc_cellpairs!=0.0, mpc_cellpairs))
     mpc_cellpairs=list(filter(lambda mpc_cellpairs: mpc_cellpairs!=0, mpc_cellpairs))
     mpc_cellpairs=list(filter((0.0).__ne__, mpc_cellpairs))
@@ -228,7 +250,8 @@ def GolombBurstingMeasure(n,spiketimes,spikeneurons):
         #if i==1:
          #   print(traces[i][600])
     sigma_all=np.var(traces_all)
-    
+    #print('traces',traces)
+    #print('traces_all',traces_all)
     B=sigma_all/(np.mean(sigma))
     return B
 #------------------------------------------CrossCorrelation---------------------------------------------#
