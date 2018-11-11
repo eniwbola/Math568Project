@@ -11,7 +11,7 @@ from Barabasi_Albert import ScaleFree
 from Small_World import smallworld
 import SynMeasures
 
-n = 300
+n = 30
 network1 = ScaleFree(n)
 G1 = nx.DiGraph(network1)
 c = nx.number_of_edges(G1)/n
@@ -52,7 +52,7 @@ plt.show()
 '''
 #---------------------------------------
 #------Neural Network Simulation--------
-wpoints = np.linspace(0.01,0.2,3)
+wpoints = np.linspace(0.0,0.2,3)
 mpcpoints = np.zeros((3,len(wpoints)))
 burstingpoints = np.zeros((3,len(wpoints)))
 for rounds in range(3):
