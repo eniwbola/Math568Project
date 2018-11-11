@@ -1,6 +1,7 @@
 import networkx as nx
 import numpy as np
 from RandomGraph import RandomG
+from Small_World import smallworld
 import Barabasi_Albert 
 import matplotlib.pyplot as plt
 #from random import random
@@ -21,14 +22,20 @@ import scipy
 #degcent=nx.in_degree_centrality(network)
 #print(['%s %0.2f'%(node,degcent[node]) for node in degcent])
 rp.seed(datetime.now())
-network=Barabasi_Albert.ScaleFree(50,1,10,2)#nx.barabasi_albert_graph(30,2,10)
-networkstr='barabasi_albert_graph(50,2,10)'
+#network=Barabasi_Albert.ScaleFree(300,.5,5,2)#nx.barabasi_albert_graph(30,2,10)
+#networkstr='barabasi_albert_graph(300,2,5)'
+#network=RandomG(300,4)#nx.barabasi_albert_graph(30,2,10)
+#networkstr='RandomG(300,4)'
+network=smallworld(300,.5,3)#nx.barabasi_albert_graph(30,2,10)
+networkstr='smallworld(300,.,3)'
+
 #Type=1
-#I_amp=0.1#0.05
-#I_rand=0.5#0.043
+#I_amp=-0.03#0.1#0.05
+#I_rand=0.0#0.5#0.043
 Type=2
 I_amp=1.7#1.4
-I_rand=.9#0.5
+I_rand=0.0#.9#0.5
+w = 0.05#0.01 #connection strength
 
 print(Barabasi_Albert.ScaleFree(30,1,10,2))
 #print(network.edges)
@@ -75,14 +82,14 @@ plt.show()
 #------Neural Network Simulation--------
 #----------Initialization---------------
 t0 = 0.0
-tend=2000.0 #tend = 1000.0
+tend=1500.0 #tend = 1000.0
 N = len(network) 
 
 delta_t = 0.05 #delta_t = 0.05 ms
 I_drive = I_amp*np.ones(N)+I_rand*np.random.rand(N)
 E = 0 # 0 mV for excitatory synapses
 tau = 0.5 # ms
-w = 0.1#0.01 #connection strength
+
 
 tpoints = np.arange(t0,tend,delta_t)
 vpoints = {}
@@ -96,7 +103,7 @@ tspike = np.zeros((N,int(len(tpoints)/10)))
 x = np.zeros((N,4))
 for i in range(N):
     vpoints[i] = []
-    x[i]=[random(),random(),random(),-70+40*random()]
+    x[i]=[random(),random(),random(),-70+5*random()]
     #x[i]=[random(),random(),random(),-70]
 spiketimes_mpc=[];
 spikeneurons_mpc=[];
@@ -190,8 +197,8 @@ plt.xlabel("degree centrality")
 plt.ylabel("number of spikes")
 plt.show()
 
-scipy.io.savemat('/home/bolaji/hw/Math568/NetworkProject/Math568Project/spiketimes_mpc.mat', mdict={'spiketimes_mpc': spiketimes_mpc})
-scipy.io.savemat('/home/bolaji/hw/Math568/NetworkProject/Math568Project/spikeneurons_mpc.mat', mdict={'spikeneurons_mpc': spikeneurons_mpc})
+#scipy.io.savemat('C:/Users/eniwbola/Documents/GitHub/Math568Project/spiketimes_mpc.mat', mdict={'spiketimes_mpc': spiketimes_mpc})
+#scipy.io.savemat('C:/Users/eniwbola/Documents/GitHub/Math568Project/spikeneurons_mpc.mat', mdict={'spikeneurons_mpc': spikeneurons_mpc})
 
 [float_mean_mpc,float_mpc_cellpairs]= SynMeasures.mpc_network(N,spiketimes_mpc,spikeneurons_mpc)
 print('mpc=',float_mean_mpc)
