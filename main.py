@@ -11,7 +11,7 @@ from Barabasi_Albert import ScaleFree
 from Small_World import smallworld
 import SynMeasures
 
-n = 30
+n = 300
 network1 = ScaleFree(n)
 G1 = nx.DiGraph(network1)
 c = nx.number_of_edges(G1)/n
@@ -111,7 +111,7 @@ for rounds in range(3):
             for i in range(N):
                 # Go thru the pre-neuron 
                 for j in network[i]:
-                    if spike[j]: I_syn[i] += w*exp(-(t-tspike[j,spike[j]])/tau)*(x[i,3]-E)
+                    if spike[j]: I_syn[i] += w*exp(-(t-tspike[j,spike[j]-1])/tau)*(x[i,3]-E)
                 if x[i,3]<-20: cross = 1
                 else: cross = 0
                 I = -I_syn[i]+I_drive[i]
@@ -137,6 +137,7 @@ for rounds in range(3):
         #    pickle.dump(vpoints,g)    
         mpcpoints[rounds][windex] = SynMeasures.mpc_network(N,spiketimes_mpc,spikeneurons_mpc)[0]
         burstingpoints[rounds][windex] = SynMeasures.GolombBurstingMeasure(N,spiketimes_mpc,spikeneurons_mpc)
+        windex += 1
         #print('MPC = ',)
         #print('BurstingMeasure = ',SynMeasures.GolombBurstingMeasure(N,spiketimes_mpc,spikeneurons_mpc))
         for ii in range(N):
