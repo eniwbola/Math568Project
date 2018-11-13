@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt2
 import random
 import math
 import networkx as nx
-def smallworld(n,P_EE,out_RAD_EE,rp=0.5):
+def smallworld(n,P_EE,out_RAD_EE,rp=0.1):
 #n=300
 #P_Con_EE=.5;
 #EE_Adjlist=[[0]*2]*mo

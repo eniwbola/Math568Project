@@ -11,14 +11,14 @@ from Barabasi_Albert import ScaleFree
 from Small_World import smallworld
 import SynMeasures
 
-n = 300
+n = 100
 network1 = ScaleFree(n)
 G1 = nx.DiGraph(network1)
 c = nx.number_of_edges(G1)/n
 # get the mean degree of the scale free network
-
-out_RAD_EE = int(ceil(c/2))
-P_EE = c/(2*out_RAD_EE)
+print('c = ', c)
+out_RAD_EE = 2#int(ceil(c/2))
+P_EE = 1#c/(2*out_RAD_EE)
 network2 = smallworld(n,P_EE,out_RAD_EE)
 G2 = nx.DiGraph(network2)
 
@@ -27,28 +27,29 @@ G3 = nx.DiGraph(network3)
 
 
 # -------visualization of the network
-'''
+
 options = {
     'node_color': 'Yellow',
-    'node_size': 100,
+    #'node_size': 100,
     'edge_color': 'black',    
     'width': 1,    
     'arrows': True,
 }
-
+#print(G1.in_degree)
 plt.figure(figsize=(16,16))
 plt.title('Scale-Free Network')
-nx.draw_kamada_kawai(G1, **options)
+nx.draw_spring(G1, node_size = [20*j for i, j in G1.in_degree], **options)
 plt.show()
 
 plt.figure(figsize=(16,16))
 plt.title('Small-World Network')
-nx.draw_circular(G2, **options)
+nx.draw_circular(G2, node_size = [20*j for i, j in G2.in_degree], **options)
 plt.show()
 plt.figure(figsize=(16,16))
 plt.title('Random Graph')
-nx.draw_kamada_kawai(G3, **options)
+nx.draw_kamada_kawai(G3, node_size = [20*j for i, j in G3.in_degree], **options)
 plt.show()
+
 '''
 #---------------------------------------
 #------Neural Network Simulation--------
@@ -166,3 +167,4 @@ plt.show()
 
 
 
+'''

@@ -13,7 +13,8 @@ import random
 
 
 
-def ScaleFree(n,P_Con_EE=1,mo=10,m=2 ):
+
+def ScaleFree(n,P_Con_EE = 40/(90*2),mo=10,m=2 ): # set P_Con_EE so that average degree is 4
 
 		def find_nearest(array, value):
 	    		array = np.asarray(array)
