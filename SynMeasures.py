@@ -199,7 +199,7 @@ def spikegauss(timestamps,srate,min_timevec,max_timevec,sigma,peak):
         b=[peak*i/max(gk) for i in gk]  #gk=peak*gk/max(gk);
         gk=b
 	
-    updatedpeak=max(gk);
+    updatedpeak=max(gk)
     npad=len(gk)-1
     full=np.convolve(spike_count,gk,'full')
     first=npad-npad//2
@@ -220,7 +220,7 @@ def spiketraces(N,spiketimes,spikeneurons):
 
     srate=10      # number of time points per msec 
     min_timevec=200    # msec
-    max_timevec=2000   # msec
+    max_timevec=5000   # msec
     sigma=2            # msec standard deviation of gaussian
     peak=1             #value of the peak of the gaussian (use peak=0 for gaussian) 
     traces=[]

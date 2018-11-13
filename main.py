@@ -11,7 +11,7 @@ from Barabasi_Albert import ScaleFree
 from Small_World import smallworld
 import SynMeasures
 
-n = 30
+n = 300
 network1 = ScaleFree(n)
 G1 = nx.DiGraph(network1)
 c = nx.number_of_edges(G1)/n
@@ -52,7 +52,7 @@ plt.show()
 '''
 #---------------------------------------
 #------Neural Network Simulation--------
-wpoints = np.linspace(0.0,0.2,3)
+wpoints = np.linspace(0.0,0.3,10)
 mpcpoints = np.zeros((3,len(wpoints)))
 burstingpoints = np.zeros((3,len(wpoints)))
 for rounds in range(3):
@@ -84,7 +84,7 @@ for rounds in range(3):
     print('N = ',N)
 
     delta_t = 0.2 #delta_t = 0.05 ms
-    I_drive = 1.3*np.ones(N)+0.02*np.random.rand(N)
+    I_drive = 1.7*np.ones(N)+0.9*(np.random.rand(N)-0.5)
     E = 0 # 0 mV for excitatory synapses
     tau = 0.5 # ms
     windex = 0
@@ -99,7 +99,7 @@ for rounds in range(3):
         x = np.zeros((N,4))
         for i in range(N):
             vpoints[i] = []
-            x[i]=[random(),random(),random(),-70+40*random()]
+            x[i]=[random(),random(),random(),-70+15*random()]
 
         spiketimes_mpc=[]
         spikeneurons_mpc=[]
@@ -125,8 +125,9 @@ for rounds in range(3):
                     tspike[i,spike[i]] = t
                     spike[i] += 1
                     #tspike_mpc.append([i,t])
-                    spiketimes_mpc.append(t)
-                    spikeneurons_mpc.append(i)
+                    if t>200:
+                        spiketimes_mpc.append(t)
+                        spikeneurons_mpc.append(i)
         #print(tspike_mpc)
         str1 = 'spikedata_n_' + str(N)+'_c_'+str(round(c,2))+'_w_'+str(round(w,2))+nametag+'.pkl'
         with open(str1,'wb') as f:
