@@ -12,6 +12,7 @@ def RandomG(n,c):
         adlist[i] = []
     for i in range(m):
         [pre,post] = sample(range(n),2)   
+        while pre in adlist[post]: [pre,post] = sample(range(n),2)   
         adlist[post].append(pre)        
     # ----------------------------------
     #print(adlist)

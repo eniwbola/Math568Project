@@ -27,6 +27,12 @@ def ScaleFree(n,P_Con_EE = 40/(90*2),mo=10,m=2 ): # set P_Con_EE so that average
 		for i in range(mo):
 			EE_Adjlist.append([-1]*random.randint(0,2))
 		
+		for q in range(40):			
+			[i,j] = random.sample(range(mo),2)
+			while j in EE_Adjlist[i] :
+				[i,j] = random.sample(range(mo),2)
+			EE_Adjlist[i].insert(0,j)
+		'''
 		for i in range(mo):
 			Current_Edge_List=EE_Adjlist[i]
 			for j in range(mo):
@@ -39,7 +45,7 @@ def ScaleFree(n,P_Con_EE = 40/(90*2),mo=10,m=2 ): # set P_Con_EE so that average
 						EE_Adjlist[j].insert(0,i)
 		#for i in EE_Adjlist:		
 			#print(i)
-
+		'''
 		#print("removing negatives")
 
 		for i in range(len(EE_Adjlist)):

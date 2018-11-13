@@ -117,7 +117,7 @@ def smallworld(n,P_EE,out_RAD_EE,rp=0.1):
                 newloc=random.randint(0,n-1)
  #--------------------matrix genration after rewired\-----------------------#                     
     EE_Matrix=[[] for i in range(n)]
-    print(EE_Matrix)
+    #print(EE_Matrix)
     for i in range(n):
         for j in range(n):
             if j in EE_Adjlist[i]:

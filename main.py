@@ -14,17 +14,19 @@ import SynMeasures
 n = 100
 network1 = ScaleFree(n)
 G1 = nx.DiGraph(network1)
-c = nx.number_of_edges(G1)/n
 # get the mean degree of the scale free network
+c = nx.number_of_edges(G1)/n
 print('c = ', c)
 out_RAD_EE = 2#int(ceil(c/2))
 P_EE = 1#c/(2*out_RAD_EE)
 network2 = smallworld(n,P_EE,out_RAD_EE)
 G2 = nx.DiGraph(network2)
-
+c = nx.number_of_edges(G2)/n
+print('c = ', c)
 network3 = RandomG(n,c)
 G3 = nx.DiGraph(network3)
-
+c = nx.number_of_edges(G3)/n
+print('c = ', c)
 
 # -------visualization of the network
 
