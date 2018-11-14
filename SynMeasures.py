@@ -208,7 +208,7 @@ def spikegauss(timestamps,srate,min_timevec,max_timevec,sigma,peak):
 
 #------------------------------------------SpikeTraces---------------------------------------------#
 
-def spiketraces(N,spiketimes,spikeneurons):
+def spiketraces(N,spiketimes,spikeneurons,min_timevec,max_timevec):
 
     def selective_spike_times(spiketimes_mpc,spikeneurons_mpc,iter):
         spikelist=[]
@@ -219,8 +219,8 @@ def spiketraces(N,spiketimes,spikeneurons):
         return spikelist
 
     srate=10      # number of time points per msec 
-    min_timevec=200    # msec
-    max_timevec=5000   # msec
+    #min_timevec=200    # msec
+    #max_timevec=5000   # msec
     sigma=2            # msec standard deviation of gaussian
     peak=1             #value of the peak of the gaussian (use peak=0 for gaussian) 
     traces=[]
@@ -241,8 +241,8 @@ def spiketraces(N,spiketimes,spikeneurons):
 #------------------------------------------GolombBurstingMeasure---------------------------------------------#
 
 
-def GolombBurstingMeasure(n,spiketimes,spikeneurons):
-    [timevec,traces,traces_all]=spiketraces(n,spiketimes,spikeneurons)
+def GolombBurstingMeasure(n,spiketimes,spikeneurons,min_timevec,max_timevec):
+    [timevec,traces,traces_all]=spiketraces(n,spiketimes,spikeneurons,min_timevec,max_timevec)
     sigma=np.zeros((n,1))
     sigma_all=0
     for i in range(n):

@@ -61,30 +61,62 @@ def ScaleFree(n,P_Con_EE = 40/(90*2),mo=10,m=2 ): # set P_Con_EE so that average
 			EE_Adj_Count.append(len(i))
 
 
-
+		"""
 		for i in range(n-mo):
 			EE_Adjlist.append([])
 			EE_Adj_Count.append(0)
 			for j in range(m):
 				if j==0:
 					Current_Edge_moi=EE_Adjlist[mo+i]
-					Current_Edge_Connect_to=[]
+					Current_Edge_Connect_to=[] # to prevent our mo+i connecting here twice
 				Connection_Range=random.uniform(0,1)*sum(EE_Adj_Count)
 				#print('Connection_Range', Connection_Range)
 				Connect_to=find_nearest(np.cumsum(EE_Adj_Count), Connection_Range)	
 				#print('Connect_to' , Connect_to)
 			        #if randcol in Current_Edge_List:
 			        #pass
+				node_add_to_moi=random.randint(0,mo+i-1)
 				if j==1 and ( ( Connect_to in Current_Edge_moi)	 or (mo+i in Current_Edge_Connect_to)   ):
+                #if j==1 and ( ( Connect_to in Current_Edge_moi)	 or (mo+i in EE_Adjlist[connect_to]) or (node_add_to_moi in Current_Edge_Connect_to)  ):
+
 					j=j-1
 					pass	
-				EE_Adjlist[mo+i].insert(0,random.randint(0,mo+i-1))#EE_Adjlist[mo+i].insert(0,k)
+				EE_Adjlist[mo+i].insert(0,node_add_to_moi)#EE_Adjlist[mo+i].insert(0,k)
 				EE_Adjlist[Connect_to].insert(0,mo+i) #EE_Adjlist[k].insert(0,mo+i)
 				EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
 				EE_Adj_Count[Connect_to]=EE_Adj_Count[Connect_to]+1
 				Current_Edge_moi=EE_Adjlist[mo+i]
-				Current_Edge_Connect_to=EE_Adjlist[Connect_to]		
+				Current_Edge_Connect_to=EE_Adjlist[Connect_to]	
+		"""
+		for i in range(n-mo):
+			EE_Adjlist.append([])
+			EE_Adj_Count.append(0)
+			j=0
+			while(j<m):
+				if j==0:
+					Current_Edge_moi=EE_Adjlist[mo+i]
+					Current_Edge_Connect_to=[] # to prevent our mo+i connecting here twice
+				Connection_Range=random.uniform(0,1)*sum(EE_Adj_Count)
+				#print('Connection_Range', Connection_Range)
+				Connect_to=find_nearest(np.cumsum(EE_Adj_Count), Connection_Range)	
+				#print('Connect_to' , Connect_to)
+			        #if randcol in Current_Edge_List:
+			        #pass
+				node_add_to_moi=random.randint(0,mo+i-1)
+				#if j==1 and ( ( Connect_to in Current_Edge_moi)	 or (mo+i in Current_Edge_Connect_to)   ):
+				if j==1 and ( ( Connect_to == Current_Edge_Connect_to)	 or (node_add_to_moi in Current_Edge_moi)  ):
 
+					
+					continue	
+				EE_Adjlist[mo+i].insert(0,node_add_to_moi)#EE_Adjlist[mo+i].insert(0,k)
+				EE_Adjlist[Connect_to].insert(0,mo+i) #EE_Adjlist[k].insert(0,mo+i)
+				EE_Adj_Count[mo+i]=EE_Adj_Count[mo+i]+1
+				EE_Adj_Count[Connect_to]=EE_Adj_Count[Connect_to]+1
+				Current_Edge_moi=EE_Adjlist[mo+i]
+				Current_Edge_Connect_to=Connect_to
+				j=j+1
+
+		
 		#print(EE_Adj_Count)	
 		EE_Adjlist_Set={}
 		Set_Iter=0
@@ -97,7 +129,7 @@ def ScaleFree(n,P_Con_EE = 40/(90*2),mo=10,m=2 ): # set P_Con_EE so that average
         	
 		return EE_Adjlist_Set
 
-
+print(ScaleFree(300))
 #------------------------------------Aditional Comments----------------------------------------#
 
 #EE_Adjlist,EE_Adj_Count=ScaleFree()  #	adjlist.append
