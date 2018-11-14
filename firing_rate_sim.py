@@ -22,12 +22,12 @@ import scipy
 #degcent=nx.in_degree_centrality(network)
 #print(['%s %0.2f'%(node,degcent[node]) for node in degcent])
 rp.seed(datetime.now())
-#network=Barabasi_Albert.ScaleFree(300,.5,5,2)#nx.barabasi_albert_graph(30,2,10)
-#networkstr='barabasi_albert_graph(300,2,5)'
+network=Barabasi_Albert.ScaleFree(300,.5,5,2)#nx.barabasi_albert_graph(30,2,10)
+networkstr='barabasi_albert_graph(300,2,5)'
 #network=RandomG(300,4)#nx.barabasi_albert_graph(30,2,10)
 #networkstr='RandomG(300,4)'
-network=smallworld(300,.5,3)#nx.barabasi_albert_graph(30,2,10)
-networkstr='smallworld(300,.,3)'
+#network=smallworld(300,.5,3)#nx.barabasi_albert_graph(30,2,10)
+#networkstr='smallworld(300,.5,3)'
 
 #Type=1
 #I_amp=-0.03#0.1#0.05
@@ -82,7 +82,8 @@ plt.show()
 #------Neural Network Simulation--------
 #----------Initialization---------------
 t0 = 0.0
-tend=1500.0 #tend = 1000.0
+tend=3000.0 #tend = 1000.0
+min_time_rec=tend/2.0
 N = len(network) 
 
 delta_t = 0.05 #delta_t = 0.05 ms
@@ -129,10 +130,10 @@ for t in tpoints:
         if (x[i,3]>-20) and cross: 
             spike[i] += 1
             tspike[i,spike[i]] = t
-            
-            #tspike_mpc.append([i,t])
-            spiketimes_mpc.append(t)
-            spikeneurons_mpc.append(i)
+            if(t>min_time_rec):
+                #tspike_mpc.append([i,t])
+                spiketimes_mpc.append(t)
+                spikeneurons_mpc.append(i)
 
 
 
@@ -203,7 +204,7 @@ plt.show()
 [float_mean_mpc,float_mpc_cellpairs]= SynMeasures.mpc_network(N,spiketimes_mpc,spikeneurons_mpc)
 print('mpc=',float_mean_mpc)
 
-print('burstingmeasure=',SynMeasures.GolombBurstingMeasure(N,spiketimes_mpc,spikeneurons_mpc))
+print('burstingmeasure=',SynMeasures.GolombBurstingMeasure(N,spiketimes_mpc,spikeneurons_mpc,min_time_rec,tend))
 
 
 
